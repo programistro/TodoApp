@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.Pages.TodoEditor"
+             Title="Изменить" NavigatedFrom="ContentPage_NavigatedFrom" Loaded="ContentPage_Loaded">
+    <Grid>
+        <Editor x:Name="editor" Margin="0,0,0,40"/>
+        <Button WidthRequest="90" HeightRequest="40" Text="Удалить" HorizontalOptions="Center" VerticalOptions="End" Clicked="Button_Clicked"/>
+    </Grid>
+</ContentPage>

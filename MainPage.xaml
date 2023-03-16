@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:App"
+             x:Class="App.MainPage" Loaded="ContentPage_Loaded">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Label
+                Text="Все заметки"
+                FontSize="32"
+                HorizontalOptions="Center" VerticalOptions="Start" Margin="0,0,0,100"
+                x:Name="MainLabel"/>
+
+            <ListView x:Name="TodoList" ItemSelected="TodoList_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" FontSize="16" />
+                                    <Label Text="{Binding Data}" FontSize="14" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Text="Добавить" WidthRequest="110" HeightRequest="40" Clicked="Button_Clicked"
+                    Margin="250,250,0,0" VerticalOptions="End"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
