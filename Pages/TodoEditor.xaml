@@ -4,7 +4,7 @@
              x:Class="App.Pages.TodoEditor"
              Title="Изменить" NavigatedFrom="ContentPage_NavigatedFrom" Loaded="ContentPage_Loaded">
     <Grid>
-        <Editor x:Name="editor" Margin="0,0,0,40"/>
-        <Button WidthRequest="90" HeightRequest="40" Text="Удалить" HorizontalOptions="Center" VerticalOptions="End" Clicked="Button_Clicked"/>
+        <Editor x:Name="editor"/>
     </Grid>
+
 </ContentPage>

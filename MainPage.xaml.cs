@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System.Windows.Input;
+using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace App;
@@ -10,12 +12,18 @@ public partial class MainPage : ContentPage
     public static string Content { get; set; }
     public static object Title { get; set; }
     public static MainPage Instance { get; private set; }
+    public ICommand MyCommand => new Command<string>((string item) =>
+    {
+        DisplayAlert("", item, "");
+    });
+    public string Com { get; set; }
     public MainPage()
     {
         InitializeComponent();
 
         Instance = this;
     }
+
     private void ContentPage_Loaded(object sender, EventArgs e)
     {
         try
@@ -53,10 +61,18 @@ public partial class MainPage : ContentPage
     {
         Content = await DisplayPromptAsync("Добавить", "Введите название:", "OK", "Отмена");
 
-        TodoModel.Add(new TodoModel() { Title = Content, Data = DateTime.Now.ToLongDateString() });
+        if (Content == null || Content == "")
+            return;
+
+        TodoModel item = new TodoModel() { Title = Content, Data = DateTime.Now.ToLongDateString() };
+
+        TodoModel.Add(item);
 
         TodoList.ItemsSource = null;
         TodoList.ItemsSource = TodoModel;
+
+        Title = item.Title;
+        await Shell.Current.GoToAsync("TodoEditor");
 
         Save();
     }
@@ -124,4 +140,30 @@ public partial class MainPage : ContentPage
         }
     }
     public static void ReSelected() => MainPage.Instance.TodoList.SelectedItem = null;
+
+    private void MenuFlyoutItem_Clicked(object sender, EventArgs e)
+    {
+        var menuitem = sender as MenuItem;
+        if (menuitem != null)
+        {
+            var name = menuitem.BindingContext as TodoModel;
+            //DisplayAlert("Alert", "Delete " + name.Title, "Ok");
+
+            XDocument xdoc = XDocument.Load(MainPage.Path);
+
+            // получим элемент person с id = "Tom"
+            var todo = xdoc.Element("ArrayOfTodoModel")?
+                .Elements("TodoModel")
+                .FirstOrDefault(p => p.Attribute("id")?.Value == name.Title.ToString());
+
+            if (todo != null)
+            {
+                todo.Remove();
+
+                xdoc.Save(MainPage.Path);
+
+                MainPage.Reload();
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-using System.Xml.Linq;
+ï»¿using System.Xml.Linq;
 
 namespace App.Pages;
 
@@ -9,11 +9,11 @@ public partial class TodoEditor : ContentPage
     private void ContentPage_Loaded(object sender, EventArgs e)
     {
         XDocument xdoc = XDocument.Load(MainPage.Path);
-        // ïîëó÷àåì êîðíåâîé óçåë
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹ ÑƒÐ·ÐµÐ»
         XElement? arrayTodoModel = xdoc.Element("ArrayOfTodoModel");
         if (arrayTodoModel is not null)
         {
-            // ïðîõîäèì ïî âñåì ýëåìåíòàì person
+            // Ð¿Ñ€Ð¾Ñ…Ð¾Ð´Ð¸Ð¼ Ð¿Ð¾ Ð²ÑÐµÐ¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°Ð¼ person
             foreach (XElement person in arrayTodoModel.Elements("TodoModel"))
             {
 
@@ -32,19 +32,40 @@ public partial class TodoEditor : ContentPage
     {
         XDocument xdoc = XDocument.Load(MainPage.Path);
 
-        // ïîëó÷èì ýëåìåíò person ñ id = "Tom"
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ person Ñ id = "Tom"
         var todo = xdoc.Element("ArrayOfTodoModel")?
             .Elements("TodoModel")
             .FirstOrDefault(p => p.Attribute("id")?.Value == MainPage.Title.ToString());
 
         if (todo != null)
         {
-            //  ìåíÿåì âëîæåííûé ýëåìåíò content
+            //  Ð¼ÐµÐ½ÑÐµÐ¼ Ð²Ð»Ð¾Ð¶ÐµÐ½Ð½Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ content
             var content = todo.Element("Content");
             if (content != null) content.Value = editor.Text;
 
             xdoc.Save(MainPage.Path);
             MainPage.ReSelected();
+        }
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        XDocument xdoc = XDocument.Load(MainPage.Path);
+
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ person Ñ id = "Tom"
+        var todo = xdoc.Element("ArrayOfTodoModel")?
+            .Elements("TodoModel")
+            .FirstOrDefault(p => p.Attribute("id")?.Value == MainPage.Title.ToString());
+
+        if (todo != null)
+        {
+            todo.Remove();
+
+            xdoc.Save(MainPage.Path);
+
+            MainPage.Reload();
+
+            Navigation.PopAsync();
         }
     }
 }

@@ -8,9 +8,10 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
+        Title="Все заметки"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"
+        Icon="D:\Project\C#\App\App\Resources\AppIcon\icon.ico"/>
 
     <ShellContent Title="Изменить"
                   ContentTemplate="{DataTemplate localPage:TodoEditor}"
